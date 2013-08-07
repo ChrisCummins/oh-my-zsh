@@ -47,7 +47,14 @@ return_code() {
 )"
 }
 
-PROMPT='$(return_code)%{$fg_bold[white]%}%n%{$reset_color%}@%{$fg[white]%}%m%{$reset_color%} in %{$fg_bold[white]%}$(collapse_pwd)%{$reset_color%}$(git_prompt_info)
+set_color_from_letter() {
+    local keycode=$(printf '%d' \'$1)
+    local modcode=$(expr $keycode % 7)
+
+    tput setaf $modcode
+}
+
+PROMPT='$(return_code)$(tput bold)$(set_color_from_letter $USER)%n%{$reset_color%}@$(set_color_from_letter $HOST)%m$reset_color%} in %{$fg_bold[white]%}$(collapse_pwd)%{$reset_color%}$(git_prompt_info)
 $(virtualenv_info)$(prompt_char) '
 
 RPROMPT='$(battery_charge)'
