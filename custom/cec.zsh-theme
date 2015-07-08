@@ -74,7 +74,7 @@ __cec_zsh_theme_colourise() {
 PROMPT='\
 %(?..%{$fg_bold[red]%}% exit [$?] ↵%{$reset_color%}
 )\
-$(tput bold)$(__cec_zsh_theme_colourise $USER)@$(__cec_zsh_theme_colourise $HOST) \
+$(tput bold)$(__cec_zsh_theme_colourise $USER)@$(tput bold)$(__cec_zsh_theme_colourise $HOST) \
 in $(__cec_zsh_theme_cwd)$(git_prompt_info)
 $(__cec_zsh_theme_prefix) '
 
