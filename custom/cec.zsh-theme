@@ -13,11 +13,27 @@
 ########################################################################
 #
 
+
+# Portability wrapper for Mac OS X:
+#
+#    Use the local machine name, not the reverse-DNS version returned
+#      by `hostname'.
+#    Pass the correct flags to `sed'.
+#
+if [[ "$(uname -s)" == "Darwin" ]]; then
+    __CEC_ZSH_THEME_HOST=$(scutil --get ComputerName)
+    __CEC_ZSH_THEME_SED_ARGS="-Ee"
+else
+    __CEC_ZSH_THEME_HOST=$HOST
+    __CEC_ZSH_THEME_SED="-re"
+fi
+
+
 # Get the current working directory, using UNIX style tilde notation
 # in place of full paths for home directories. E.g. "~/", "~foo/".
 #
 __cec_zsh_theme_cwd() {
-    local cwd="$(pwd | sed -re "s,^$HOME,~," -e "s,/home/(.+),~\1,")"
+    local cwd="$(pwd | sed $__CEC_ZSH_THEME_SED_ARGS "s,^$HOME,~," -e "s,/home/(.+),~\1,")"
     echo "%{$fg_bold[white]%}$cwd%{$reset_color%}"
 }
 
@@ -74,7 +90,7 @@ __cec_zsh_theme_colourise() {
 PROMPT='\
 %(?..%{$fg_bold[red]%}% exit [$?] ↵%{$reset_color%}
 )\
-$(tput bold)$(__cec_zsh_theme_colourise $USER)@$(tput bold)$(__cec_zsh_theme_colourise $HOST) \
+$(tput bold)$(__cec_zsh_theme_colourise $USER)@$(tput bold)$(__cec_zsh_theme_colourise $__CEC_ZSH_THEME_HOST) \
 in $(__cec_zsh_theme_cwd)$(git_prompt_info)
 $(__cec_zsh_theme_prefix) '
 
