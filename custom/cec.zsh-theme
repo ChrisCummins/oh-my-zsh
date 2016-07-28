@@ -96,7 +96,7 @@ $(__cec_zsh_theme_prefix) '
 # Right hand prompt.
 #
 # Show the current time in HH:MM:SS format.
-RPROMPT="$(date '+%H:%M:%S')"
+# RPROMPT="$(date '+%H:%M:%S')"
 
 
 ZSH_THEME_GIT_PROMPT_PREFIX=" on %{$fg[white]%}"
