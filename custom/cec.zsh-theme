@@ -31,7 +31,7 @@ fi
 # in place of full paths for home directories. E.g. "~/", "~foo/".
 #
 __cec_zsh_theme_cwd() {
-    local cwd="$(pwd | sed $__CEC_ZSH_THEME_SED_ARGS "s,^$HOME,~," -e "s,/home/(.+),~\1,")"
+    local cwd="$(pwd | sed -e "s,^$HOME,~,;s,^/home/,~,;s,^/Users/,~,")"
     echo "\e[1m$cwd%{$reset_color%}"
 }
 
