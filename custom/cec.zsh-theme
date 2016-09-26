@@ -45,10 +45,6 @@ __cec_zsh_theme_prefix() {
     # indicate a non-standard environment.
     [ $ENV ] && { prefix='('`basename $ENV`') ' }
 
-    # Prefix prompt with asterisk "*" in case directory is tracked by
-    # git.
-    git branch >/dev/null 2>&1 && { prefix=$prefix'*' }
-
     # Set pound sign "#" or dollar sign "$" prefix character depending
     # on whether we're superuser or a normal user, respectively.
     if (( $UID != 0 )); then
