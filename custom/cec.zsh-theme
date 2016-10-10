@@ -82,12 +82,12 @@ __cec_zsh_theme_colourise() {
 # username and hostname, current directory, and git version control
 # status.
 PROMPT='\
-%(?..%{$fg_bold[red]%}% exit [$?] ↵%{$reset_color%}
+%(?..%{$fg_bold[red]%}% Exited with return code $? ↵%{$reset_color%}
 )\
 $(tput bold)$(__cec_zsh_theme_colourise $USER)@$(tput bold)$(__cec_zsh_theme_colourise $__CEC_ZSH_THEME_HOST)\
- in $(__cec_zsh_theme_cwd)$(git_prompt_info)\
+ in directory $(__cec_zsh_theme_cwd)$(git_prompt_info)\
  at $(date '+%H:%M:%S')\
-
+.
 $(__cec_zsh_theme_prefix) '
 
 
