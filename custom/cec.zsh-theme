@@ -65,12 +65,15 @@ __cec_zsh_theme_colourise() {
     local total=2
     local i
 
-    # Sum the ASCII values of the characters in the string.
+    # Sum the ASCII values of the characters in the string
     for (( i=0; i < ${#string}; i++ )); do
         total=$((total+$(printf '%d' \'${string:$i:1})))
     done
 
+    # Convert integer into a colour code in the range [1,7]
     local modcode=$((1 + $(expr $total % 7)))
+
+    # Set colour code
     local color=$(tput setaf $modcode)
 
     echo "$color$1$reset_color"
