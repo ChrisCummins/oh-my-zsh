@@ -13,7 +13,7 @@ alias lS='ls -1FSsh'
 alias lart='ls -1Fcart'
 alias lrt='ls -1Fcrt'
 
-alias zshrc='vim ~/.zshrc' # Quick access to the ~/.zshrc file
+alias zshrc='$EDITOR ~/.zshrc' # Quick access to the ~/.zshrc file
 
 alias grep='grep --color'
 alias sgrep='grep -R -n -H -C 5 --exclude-dir={.git,.svn,CVS} '
@@ -52,7 +52,7 @@ alias mv='mv -i'
 
 # zsh is able to auto-do some kungfoo
 # depends on the SUFFIX :)
-if [ ${ZSH_VERSION//\./} -ge 420 ]; then
+if is-at-least 4.2.0; then
   # open browser on urls
   _browser_fts=(htm html de org net com at cx nl se dk dk php)
   for ft in $_browser_fts ; do alias -s $ft=$BROWSER ; done
@@ -63,7 +63,7 @@ if [ ${ZSH_VERSION//\./} -ge 420 ]; then
   _image_fts=(jpg jpeg png gif mng tiff tif xpm)
   for ft in $_image_fts ; do alias -s $ft=$XIVIEWER; done
 
-  _media_fts=(ape avi flv mkv mov mp3 mpeg mpg ogg ogm rm wav webm)
+  _media_fts=(ape avi flv m4a mkv mov mp3 mpeg mpg ogg ogm rm wav webm)
   for ft in $_media_fts ; do alias -s $ft=mplayer ; done
 
   #read documents
