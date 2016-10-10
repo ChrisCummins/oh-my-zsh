@@ -84,9 +84,10 @@ __cec_zsh_theme_colourise() {
 PROMPT='\
 %(?..%{$fg_bold[red]%}% exit [$?] ↵%{$reset_color%}
 )\
-$(tput bold)$(__cec_zsh_theme_colourise $USER)@$(tput bold)$(__cec_zsh_theme_colourise $__CEC_ZSH_THEME_HOST) \
-[$(date '+%H:%M:%S')] \
-in $(__cec_zsh_theme_cwd)$(git_prompt_info)
+$(tput bold)$(__cec_zsh_theme_colourise $USER)@$(tput bold)$(__cec_zsh_theme_colourise $__CEC_ZSH_THEME_HOST)\
+ in $(__cec_zsh_theme_cwd)$(git_prompt_info)\
+ at $(date '+%H:%M:%S')\
+
 $(__cec_zsh_theme_prefix) '
 
 
