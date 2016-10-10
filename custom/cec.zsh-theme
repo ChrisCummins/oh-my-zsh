@@ -43,37 +43,43 @@ __cec_zsh_theme_prefix() {
     # Prefix prompt with (<$ENV>) environment variable, if set. This
     # can be used be scripts which spawn subshells in order to
     # indicate a non-standard environment.
-    [ $ENV ] && { prefix='('`basename $ENV`') ' }
+    [ $ENV ] && { prefix="($(basename $ENV)) " }
+    [ $VIRTUAL_ENV ] && { prefix="($(basename $VIRTUAL_ENV)) " }
 
     # Set pound sign "#" or dollar sign "$" prefix character depending
     # on whether we're superuser or a normal user, respectively.
     if (( $UID != 0 )); then
-        prefix=$prefix'$'
+        prefix="$prefix$"
     else
-        prefix=$prefix'#'
+        prefix="$prefix#"
     fi
 
-    echo $prefix
+    echo "$prefix"
 }
 
 # Print a given string in a colour depending on the contents of the
-# string. Iterate over input characters summing up their decimal char
-# value, before modulating around 7 in order to produce a colour code.
+# string.
 #
 __cec_zsh_theme_colourise() {
-    local chars="$(echo $1 | sed -e 's/\(.\)/\1\n/g')"
-    local total=3
+    local string="$1"
+    local total=2
+    local i
 
-    for c in $(echo $1 | sed -e 's/\(.\)/\1\n/g'); do
-        local int=$(printf '%d' \'$c)
-        total=$((total+int))
+    # Sum the ASCII values of the characters in the string.
+    for (( i=0; i < ${#string}; i++ )); do
+        total=$((total+$(printf '%d' \'${string:$i:1})))
     done
 
-    local modcode=$(expr $total % 7)
+    local modcode=$((1 + $(expr $total % 7)))
     local color=$(tput setaf $modcode)
 
     echo "$color$1$reset_color"
 }
+
+
+__cec_zsh_theme_exit_status='\
+%(?..%{$fg_bold[red]%}% Exited with return code $? ↵%{$reset_color%}
+)'
 
 
 # Left hand side prompt.
@@ -81,13 +87,14 @@ __cec_zsh_theme_colourise() {
 # Shows the return code (if non-zero) of the previous command, the
 # username and hostname, current directory, and git version control
 # status.
-PROMPT='\
-%(?..%{$fg_bold[red]%}% Exited with return code $? ↵%{$reset_color%}
-)\
-$(tput bold)$(__cec_zsh_theme_colourise $USER)@$(tput bold)$(__cec_zsh_theme_colourise $__CEC_ZSH_THEME_HOST)\
- in directory $(__cec_zsh_theme_cwd)$(git_prompt_info)\
- at $(date '+%H:%M:%S')\
-.
+PROMPT="$__cec_zsh_theme_exit_status"'\
+$(tput bold)$(__cec_zsh_theme_colourise $USER)\
+@\
+$(tput bold)$(__cec_zsh_theme_colourise $__CEC_ZSH_THEME_HOST) \
+in $(__cec_zsh_theme_cwd)\
+$(git_prompt_info) \
+at $(date "+%H:%M:%S").\
+
 $(__cec_zsh_theme_prefix) '
 
 
